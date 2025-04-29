@@ -15,6 +15,8 @@
     <link href="{{ asset('theme/landing/css/styles.css') }}" rel="stylesheet" />
 
     @yield('css')
+
+    @livewireStyles
 </head>
 
 <body>
@@ -26,7 +28,7 @@
 
     <!-- Page content-->
     <div class="container">
-        @yield('content')
+        {{ $slot }}
     </div>
 
     <!-- Footer-->
@@ -40,6 +42,7 @@
 
     @yield('js')
 
+    @livewireScripts
 </body>
 
 </html>

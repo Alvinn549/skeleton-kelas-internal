@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Livewire\About;
+use App\Livewire\Blog;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/login', 'auth.login')
@@ -16,13 +18,15 @@ Route::post('/do-logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('do-logout');
 
-Route::view('/', 'index');
+Route::get('/', Blog::class);
+
+Route::get('/about',  About::class);
+
+Route::view('/landing/posts/show', 'landing.pages.posts.show');
 
 Route::middleware('auth')->group(function () {
-    Route::view('/dashboard', 'dashboard');
 
-    Route::view('/about', 'landing.pages.about.index');
-    Route::view('/landing/posts/show', 'landing.pages.posts.show');
+    Route::view('/dashboard', 'dashboard');
 
     Route::view('/dashboard', 'dashboard');
 
