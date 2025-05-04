@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\PostKategori;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Kategori;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
 
 class PostKategoriSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        PostKategori::factory(10)->create();
+        Post::all()->each(function ($post) {
+            $kategoriIds = Kategori::inRandomOrder()->take(rand(1, 3))->pluck('id')->toArray();
+            $post->kategoris()->attach($kategoriIds);
+        });
     }
 }
