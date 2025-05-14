@@ -23,23 +23,51 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/posts" method="POST">
+            <form action="{{ route('post.update', $post) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
                 <div class="mb-3">
                     <label for="kategori_id" class="form-label">Kategori</label>
-                    <select class="form-control" id="kategori_id" name="kategori_id" required multiple="multiple">
+                    {{-- @dump($post->kategoris->pluck('id')->toArray()) --}}
+                    <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id"
+                        name="kategori_id[]" multiple="multiple">
                         <option value="" disabled>Pilih Kategori</option>
-                        <option value="1">Kategori 1</option>
-                        <option value="2">Kategori 2</option>
+                        @foreach ($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}"
+                                {{ in_array($kategori->id, old('kategori_id', $post->kategoris->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                {{ $kategori->nama }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('kategori_id')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="judul" class="form-label">Judul</label>
-                    <input type="text" class="form-control" id="judul" name="judul" required>
+                    <input type="text" class="form-control @error('judul') is-invalid @enderror" id="judul"
+                        name="judul" value="{{ old('judul', $post->judul) }}">
+                    @error('judul')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="isi" class="form-label">Isi</label>
-                    <textarea class="form-control" id="isi" name="isi" rows="5" required></textarea>
+                    <textarea class="form-control @error('judul') is-invalid @enderror" id="isi" name="isi" rows="5">{{ old('isi', $post->isi) }}</textarea>
+                    @error('isi')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="gambar" class="form-label">Gambar</label>
+                    <input type="file" class="form-control" id="gambar" name="gambar">
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>

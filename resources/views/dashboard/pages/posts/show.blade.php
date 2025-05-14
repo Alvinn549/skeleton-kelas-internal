@@ -22,18 +22,44 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th>Kategori</th>
-                        <td>kategori</td>
+                        <th width="200">Kategori</th>
+                        <td>
+                            @foreach ($post->kategoris as $kategori)
+                                <span class="badge bg-primary">{{ $kategori->nama }}</span>
+                            @endforeach
+                        </td>
                     </tr>
                     <tr>
                         <th>Judul</th>
-                        <td>judul</td>
+                        <td>{{ $post->judul }}</td>
                     </tr>
                     <tr>
                         <th>Isi</th>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, quae. Laborum reprehenderit quam
-                            saepe porro, repellendus, consequatur accusantium autem nesciunt quod accusamus tempora? Non
-                            nesciunt distinctio illo assumenda impedit sit!</td>
+                        <td>{{ $post->isi }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dibuat oleh</th>
+                        <td>{{ $post->user->email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Gambar</th>
+                        <td>
+                            @if ($post->gambar)
+                                <img src="{{ asset('storage/' . $post->gambar) }}">
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="200">Komentar</th>
+                        <td>
+                            @foreach ($post->komentars as $komentar)
+                                <span class="badge bg-primary">{{ $komentar->isi }}</span>
+
+                                @foreach ($komentar->replies as $reply)
+                                    <span class="badge bg-secondary">{{ $reply->isi }}</span>
+                                @endforeach
+                            @endforeach
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -18,7 +18,7 @@
                 Data Posts
             </div>
             <div>
-                <a href="/posts/create" class="btn btn-success btn-sm">Tambah</a>
+                <a href="{{ route('post.create') }}" class="btn btn-success btn-sm">Tambah</a>
             </div>
         </div>
         <div class="card-body">
@@ -34,30 +34,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>Tiger Nixon</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                            <a href="/posts/show" class="btn btn-primary btn-sm me-1">Detail</a>
-                            <a href="/posts/edit" class="btn btn-warning btn-sm me-1">Edit</a>
-                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>Tiger Nixon</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                            <a href="/posts/show" class="btn btn-primary btn-sm me-1">Detail</a>
-                            <a href="/posts/edit" class="btn btn-warning btn-sm me-1">Edit</a>
-                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                        </td>
-                    </tr>
+                    @foreach ($posts as $post)
+                        <tr>
+                            <td class="text-center">{{ $loop->iteration }}</td>
+                            <td>{{ $post->judul }}</td>
+                            <td>{{ $post->isi }}</td>
+                            <td>
+                                {{ $post->kategoris->pluck('nama')->implode(', ') }}
+                            </td>
+                            <td>{{ $post->created_at }}</td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('post.show', $post) }}" class="btn btn-primary btn-sm me-1">Detail</a>
+                                    <a href="{{ route('post.edit', $post->id) }}"
+                                        class="btn btn-warning btn-sm me-1">Edit</a>
+
+                                    <form action="{{ route('post.destroy', $post) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">HAPUS</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

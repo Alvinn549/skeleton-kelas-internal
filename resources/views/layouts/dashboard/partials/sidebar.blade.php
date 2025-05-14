@@ -2,14 +2,14 @@
     <div class="sb-sidenav-menu">
         <div class="nav">
             <div class="sb-sidenav-menu-heading">Core</div>
-            <a class="nav-link active" href="/dashboard">
+            <a class="nav-link active" href="{{ route('dashboard') }}">
                 <div class="sb-nav-link-icon">
                     <i class="fas fa-home"></i>
                 </div>
                 Dashboard
             </a>
             <div class="sb-sidenav-menu-heading">Addons</div>
-            <a class="nav-link" href="/posts">
+            <a class="nav-link" href="{{ route('post.index') }}">
                 <div class="sb-nav-link-icon">
                     <i class="fas fa-pen"></i>
                 </div>

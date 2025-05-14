@@ -22,5 +22,23 @@ class KategoriSeeder extends Seeder
         Kategori::create([
             'nama' => 'Kesehatan',
         ]);
+        Kategori::create([
+            'nama' => 'Pendidikan',
+        ]);
+        Kategori::create([
+            'nama' => 'Olahraga',
+        ]);
+        Kategori::create([
+            'nama' => 'Seni',
+        ]);
+        Kategori::create([
+            'nama' => 'Ekonomi',
+        ]);
+        Kategori::create([
+            'nama' => 'Lingkungan',
+        ]);
+        Kategori::create([
+            'nama' => 'Hiburan',
+        ]);
     }
 }

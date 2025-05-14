@@ -13,33 +13,74 @@
     </ol>
 
     <div class="card mb-4">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="card-header d-flex justify-content-between">
             <div>
                 <i class="fas fa-table me-1"></i>
                 Data Post
             </div>
             <div>
-                <a href="/posts" class="btn btn-secondary btn-sm">Kembali</a>
+                <a href="{{ route('post.index') }}" class="btn btn-secondary btn-sm">Kembali</a>
             </div>
         </div>
         <div class="card-body">
-            <form action="/posts" method="POST">
+            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
                 <div class="mb-3">
                     <label for="kategori_id" class="form-label">Kategori</label>
-                    <select class="form-control" id="kategori_id" name="kategori_id" required multiple="multiple">
+                    <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id"
+                        name="kategori_id[]" multiple="multiple">
                         <option value="" disabled>Pilih Kategori</option>
-                        <option value="1">Kategori 1</option>
-                        <option value="2">Kategori 2</option>
+                        @foreach ($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}"
+                                {{ in_array($kategori->id, old('kategori_id', [])) ? 'selected' : '' }}>
+                                {{ $kategori->nama }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('kategori_id')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="judul" class="form-label">Judul</label>
-                    <input type="text" class="form-control" id="judul" name="judul" required>
+                    <input type="text" class="form-control @error('judul') is-invalid @enderror" id="judul"
+                        name="judul" value="{{ old('judul') }}">
+                    @error('judul')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="isi" class="form-label">Isi</label>
-                    <textarea class="form-control" id="isi" name="isi" rows="5" required></textarea>
+                    <textarea class="form-control @error('judul') is-invalid @enderror" id="isi" name="isi" rows="5">{{ old('isi') }}</textarea>
+                    @error('isi')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="gambar" class="form-label">Gambar</label>
+                    <input type="file" class="form-control @error('gambar') is-invalid @enderror" id="gambar"
+                        name="gambar">
+                    @error('gambar')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
